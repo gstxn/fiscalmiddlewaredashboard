@@ -108,7 +108,7 @@ function App() {
       <main className="dashboard__content">
         {error && (
           <div className="alert alert--error">
-            {error} Certifique-se de que a API está rodando na porta 5074.
+            {error} Verifique se a WebAPI está online no Render.
           </div>
         )}
 
