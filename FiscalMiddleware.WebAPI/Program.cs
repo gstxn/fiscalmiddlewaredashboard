@@ -47,7 +47,8 @@ builder.Services.AddScoped<ILoteRepository, LoteRepository>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
-builder.Services.AddSingleton<IIdempotencyService, RedisIdempotencyService>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<IIdempotencyService, MemoryIdempotencyService>();
 
 var externalApiUrl = configuration["ExternalApi:BaseUrl"] ?? "http://localhost:8080/";
 builder.Services.AddExternalFiscalClientWithPolly(externalApiUrl);
@@ -58,8 +59,7 @@ builder.Services.AddControllers();
 
 // 5. Health Checks
 builder.Services.AddHealthChecks()
-    .AddNpgSql(configuration.GetConnectionString("PostgresConnection") ?? "", name: "postgres")
-    .AddRedis(configuration.GetConnectionString("RedisConnection") ?? "localhost:6379", name: "redis");
+    .AddNpgSql(configuration.GetConnectionString("PostgresConnection") ?? "", name: "postgres");
 
 // CORS for React Panel
 builder.Services.AddCors(options =>
