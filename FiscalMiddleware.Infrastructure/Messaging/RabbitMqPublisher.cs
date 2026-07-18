@@ -22,17 +22,20 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
     {
         _logger = logger;
         
-        var hostName = configuration["RabbitMQ:HostName"] ?? "localhost";
-        var userName = configuration["RabbitMQ:UserName"] ?? "fiscal_mq";
-        var password = configuration["RabbitMQ:Password"] ?? "fiscal_mq_pass";
         _queueName = configuration["RabbitMQ:QueueName"] ?? "transacoes_fiscais_queue";
 
-        var factory = new ConnectionFactory
+        var factory = new ConnectionFactory();
+        var uriString = configuration["RabbitMQ:Uri"];
+        if (!string.IsNullOrEmpty(uriString))
         {
-            HostName = hostName,
-            UserName = userName,
-            Password = password
-        };
+            factory.Uri = new Uri(uriString);
+        }
+        else
+        {
+            factory.HostName = configuration["RabbitMQ:HostName"] ?? "localhost";
+            factory.UserName = configuration["RabbitMQ:UserName"] ?? "fiscal_mq";
+            factory.Password = configuration["RabbitMQ:Password"] ?? "fiscal_mq_pass";
+        }
 
         // For production, connection resilience/retries should be added here
         _connection = factory.CreateConnection();

@@ -41,11 +41,19 @@ public class FiscalMessageConsumer : BackgroundService
 
         var factory = new ConnectionFactory
         {
-            HostName = _configuration["RabbitMQ:HostName"] ?? "localhost",
-            UserName = _configuration["RabbitMQ:UserName"] ?? "fiscal_mq",
-            Password = _configuration["RabbitMQ:Password"] ?? "fiscal_mq_pass",
             DispatchConsumersAsync = true
         };
+        var uriString = _configuration["RabbitMQ:Uri"];
+        if (!string.IsNullOrEmpty(uriString))
+        {
+            factory.Uri = new Uri(uriString);
+        }
+        else
+        {
+            factory.HostName = _configuration["RabbitMQ:HostName"] ?? "localhost";
+            factory.UserName = _configuration["RabbitMQ:UserName"] ?? "fiscal_mq";
+            factory.Password = _configuration["RabbitMQ:Password"] ?? "fiscal_mq_pass";
+        }
 
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
