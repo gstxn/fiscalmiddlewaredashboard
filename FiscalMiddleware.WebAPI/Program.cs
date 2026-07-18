@@ -52,7 +52,7 @@ builder.Services.AddSingleton<IIdempotencyService, RedisIdempotencyService>();
 var externalApiUrl = configuration["ExternalApi:BaseUrl"] ?? "http://localhost:8080/";
 builder.Services.AddExternalFiscalClientWithPolly(externalApiUrl);
 
-builder.Services.AddHostedService<FiscalMessageConsumer>();
+builder.Services.AddHostedService<FiscalMiddleware.WebAPI.FiscalMessageConsumer>();
 // 4. API Controllers & Routing
 builder.Services.AddControllers();
 
