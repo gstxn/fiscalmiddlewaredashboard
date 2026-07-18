@@ -21,7 +21,7 @@ graph TD
     B -->|"Retorna 202 Accepted"| A
     B -->|"Publica Mensagem"| C[("RabbitMQ: Fila Principal")]
     C -->|"Consome Mensagem"| D("Worker: Processador")
-    D <-->|"Garante Idempotência"| E[("Redis")]
+    D <-->|"Garante Idempotência"| E[("MemoryCache Local")]
     D <-->|"Auditoria e Estado"| F[("PostgreSQL")]
     D -->|"Integração Protegida (Polly)"| G["API Externa Simulada"]
     G -.->|"Falhas Críticas / Timeout"| H[("RabbitMQ: DLQ")]
