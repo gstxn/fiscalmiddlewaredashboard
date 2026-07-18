@@ -116,6 +116,14 @@ public class FiscalMessageConsumer : BackgroundService
                     return;
                 }
 
+                var propertyInfo = typeof(Transacao).GetProperty("Status");
+                if (propertyInfo != null && propertyInfo.CanWrite)
+                {
+                    propertyInfo.SetValue(transacao, StatusTransacao.Processando);
+                    await transacaoRepo.AtualizarAsync(transacao, stoppingToken);
+                    await dbContext.SaveChangesAsync(stoppingToken);
+                }
+
                 // 4. Analisar Resultado
                 var isSuccess = statusCode >= 200 && statusCode < 300;
                 var novoStatus = isSuccess ? StatusTransacao.Sucesso : StatusTransacao.Falha;
@@ -158,6 +166,26 @@ public class FiscalMessageConsumer : BackgroundService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro catastrófico ao processar mensagem. Movendo para DLQ.");
+                
+                try 
+                {
+                    var transacaoFalha = await transacaoRepo.ObterPorIdAsync(transacaoMsg.TransacaoId, stoppingToken);
+                    if (transacaoFalha != null)
+                    {
+                        var propertyInfo = typeof(Transacao).GetProperty("Status");
+                        if (propertyInfo != null && propertyInfo.CanWrite)
+                        {
+                            propertyInfo.SetValue(transacaoFalha, StatusTransacao.EmDLQ);
+                            await transacaoRepo.AtualizarAsync(transacaoFalha, stoppingToken);
+                            await dbContext.SaveChangesAsync(stoppingToken);
+                        }
+                    }
+                }
+                catch (Exception dbEx)
+                {
+                    _logger.LogError(dbEx, "Erro ao tentar atualizar status para EmDLQ no banco de dados.");
+                }
+
                 EnviarParaDLQ(body, transacaoMsg, MotivoFalha.ErroInesperado, ex.Message);
                 _channel.BasicAck(ea.DeliveryTag, multiple: false); // ACK na main
             }
