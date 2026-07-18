@@ -5,6 +5,11 @@
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-Message_Broker-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+<br/>
+<div align="center">
+  <img src="images/image.png" alt="Fiscal Middleware Dashboard" width="100%" />
+</div>
+<br/>
 ## Visão Geral do Projeto
 Em ambientes corporativos de alta volumetria, integrações síncronas diretas com APIs externas (gateways de pagamento, emissão de notas fiscais, SEFAZ, etc.) frequentemente sofrem com instabilidades e timeouts, resultando em perda de dados e degradação da experiência do usuário.
 
