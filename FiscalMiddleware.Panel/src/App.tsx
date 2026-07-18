@@ -20,7 +20,7 @@ function App() {
   const fetchStats = async () => {
     try {
       // Usando fetch nativo
-      const response = await fetch('http://localhost:5074/api/v1/Dashboard/stats');
+      const response = await fetch('https://fiscal-webapi.onrender.com/api/v1/Dashboard/stats');
       if (!response.ok) {
         throw new Error('Falha ao buscar dados');
       }
@@ -45,7 +45,7 @@ function App() {
     }));
 
     try {
-      await fetch('http://localhost:5074/api/v1/Transacoes/lote', {
+      await fetch('https://fiscal-webapi.onrender.com/api/v1/Transacoes/lote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
