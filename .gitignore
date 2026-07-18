@@ -1,0 +1,25 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.dll
+*.exe
+
+# Node.js
+node_modules/
+dist/
+build/
+.env
+
+# VS Code / Visual Studio
+.vscode/
+.vs/
+.idea/
+
+# Environment / Logs
+*.log
+*.sqlite
+appsettings.Development.json

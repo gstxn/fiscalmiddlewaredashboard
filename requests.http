@@ -1,0 +1,31 @@
+@Host = http://localhost:5074
+
+### Obter Estatísticas do Dashboard
+GET {{Host}}/api/v1/Dashboard/stats
+Accept: application/json
+
+### Enviar Lote Fiscal
+POST {{Host}}/api/v1/Transacoes/lote
+Content-Type: application/json
+Accept: application/json
+
+{
+  "loteId": "{{$guid}}",
+  "origem": "SistemaVendas_BR",
+  "transacoes": [
+    {
+      "documentoFiscal": "NFE-00012345",
+      "cnpjEmitente": "12345678000199",
+      "valor": 1500.50,
+      "tipoOperacao": 1,
+      "payloadOriginal": "{ \"itens\": [ { \"id\": 1, \"valor\": 1500.50 } ] }"
+    },
+    {
+      "documentoFiscal": "NFE-00012346",
+      "cnpjEmitente": "12345678000199",
+      "valor": 250.00,
+      "tipoOperacao": 2,
+      "payloadOriginal": "{ \"itens\": [ { \"id\": 2, \"valor\": 250.00 } ] }"
+    }
+  ]
+}

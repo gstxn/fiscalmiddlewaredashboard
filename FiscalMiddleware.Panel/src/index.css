@@ -1,0 +1,67 @@
+:root {
+  /* High-End Glassmorphism Theme */
+  --bg-color: #2b3542; /* Deep slate gray from the image */
+  --panel-bg: rgba(43, 53, 66, 0.4);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  
+  --accent-color: #64748b;
+  --accent-hover: #94a3b8;
+  
+  /* Pastel neon tones from the image */
+  --success-color: #8be9fd; /* Soft cyan */
+  --success-glow: rgba(139, 233, 253, 0.3);
+  
+  --error-color: #ff5555; /* Soft crimson */
+  --error-glow: rgba(255, 85, 85, 0.3);
+  
+  --warning-color: #ffb86c; /* Soft amber/gold */
+  --warning-glow: rgba(255, 184, 108, 0.3);
+  
+  --processing-color: #f1fa8c; /* Soft yellow */
+  
+  /* Soft organic radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  
+  /* Drop shadows for depth */
+  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

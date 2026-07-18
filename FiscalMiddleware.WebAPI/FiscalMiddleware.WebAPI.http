@@ -1,0 +1,6 @@
+@FiscalMiddleware.WebAPI_HostAddress = http://localhost:5074
+
+GET {{FiscalMiddleware.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
