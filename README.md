@@ -17,15 +17,15 @@ O projeto utiliza os princípios de **Clean Architecture**, isolando o domínio 
 
 ```mermaid
 graph TD
-    A[Sistemas Clientes] -->|POST /api/v1/Transacoes/lote| B(WebAPI: Ingestão de Dados)
-    B -->|Retorna 202 Accepted| A
-    B -->|Publica Mensagem| C[(RabbitMQ: Fila Principal)]
-    C -->|Consome Mensagem| D(Worker: Processador)
-    D <-->|Garante Idempotência| E[(Redis)]
-    D <-->|Auditoria e Estado| F[(PostgreSQL)]
-    D -->|Integração Protegida (Polly)| G[API Externa Simulada]
-    G -.->|Falhas Críticas / Timeout| H[(RabbitMQ: DLQ)]
-    H -.->|Monitoramento em Tempo Real| I[Dashboard React]
+    A["Sistemas Clientes"] -->|"POST /api/v1/Transacoes/lote"| B("WebAPI: Ingestão de Dados")
+    B -->|"Retorna 202 Accepted"| A
+    B -->|"Publica Mensagem"| C[("RabbitMQ: Fila Principal")]
+    C -->|"Consome Mensagem"| D("Worker: Processador")
+    D <-->|"Garante Idempotência"| E[("Redis")]
+    D <-->|"Auditoria e Estado"| F[("PostgreSQL")]
+    D -->|"Integração Protegida (Polly)"| G["API Externa Simulada"]
+    G -.->|"Falhas Críticas / Timeout"| H[("RabbitMQ: DLQ")]
+    H -.->|"Monitoramento em Tempo Real"| I["Dashboard React"]
 ```
 
 ---
