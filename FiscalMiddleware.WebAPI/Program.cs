@@ -12,6 +12,7 @@ using FiscalMiddleware.Infrastructure.Data;
 using FiscalMiddleware.Infrastructure.Data.Repositories;
 using FiscalMiddleware.Infrastructure.Messaging;
 using FiscalMiddleware.Infrastructure.Caching;
+using FiscalMiddleware.Infrastructure.HttpClients;
 using FiscalMiddleware.WebAPI.Middlewares;
 using FiscalMiddleware.Application.Commands;
 using FiscalMiddleware.Application.Handlers;
@@ -48,6 +49,10 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
 builder.Services.AddSingleton<IIdempotencyService, RedisIdempotencyService>();
 
+var externalApiUrl = configuration["ExternalApi:BaseUrl"] ?? "http://localhost:8080/";
+builder.Services.AddExternalFiscalClientWithPolly(externalApiUrl);
+
+builder.Services.AddHostedService<FiscalMessageConsumer>();
 // 4. API Controllers & Routing
 builder.Services.AddControllers();
 
