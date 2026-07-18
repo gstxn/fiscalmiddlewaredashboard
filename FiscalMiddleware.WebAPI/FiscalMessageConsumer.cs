@@ -116,13 +116,9 @@ public class FiscalMessageConsumer : BackgroundService
                     return;
                 }
 
-                var propertyInfo = typeof(Transacao).GetProperty("Status");
-                if (propertyInfo != null && propertyInfo.CanWrite)
-                {
-                    propertyInfo.SetValue(transacao, StatusTransacao.Processando);
-                    await transacaoRepo.AtualizarAsync(transacao, stoppingToken);
-                    await dbContext.SaveChangesAsync(stoppingToken);
-                }
+                transacao.AlterarStatus(StatusTransacao.Processando);
+                await transacaoRepo.AtualizarAsync(transacao, stoppingToken);
+                await dbContext.SaveChangesAsync(stoppingToken);
 
                 // 4. Analisar Resultado
                 var isSuccess = statusCode >= 200 && statusCode < 300;
@@ -140,13 +136,7 @@ public class FiscalMessageConsumer : BackgroundService
                     
                 dbContext.Historicos.Add(historico);
 
-                // Atualizar o status da transação para refletir na Dashboard e no banco
-                var propertyInfo = typeof(Transacao).GetProperty("Status");
-                if (propertyInfo != null && propertyInfo.CanWrite)
-                {
-                    propertyInfo.SetValue(transacao, novoStatus);
-                }
-
+                transacao.AlterarStatus(novoStatus);
                 await transacaoRepo.AtualizarAsync(transacao, stoppingToken);
                 await dbContext.SaveChangesAsync(stoppingToken);
 
@@ -172,13 +162,9 @@ public class FiscalMessageConsumer : BackgroundService
                     var transacaoFalha = await transacaoRepo.ObterPorIdAsync(transacaoMsg.TransacaoId, stoppingToken);
                     if (transacaoFalha != null)
                     {
-                        var propertyInfo = typeof(Transacao).GetProperty("Status");
-                        if (propertyInfo != null && propertyInfo.CanWrite)
-                        {
-                            propertyInfo.SetValue(transacaoFalha, StatusTransacao.EmDLQ);
-                            await transacaoRepo.AtualizarAsync(transacaoFalha, stoppingToken);
-                            await dbContext.SaveChangesAsync(stoppingToken);
-                        }
+                        transacaoFalha.AlterarStatus(StatusTransacao.EmDLQ);
+                        await transacaoRepo.AtualizarAsync(transacaoFalha, stoppingToken);
+                        await dbContext.SaveChangesAsync(stoppingToken);
                     }
                 }
                 catch (Exception dbEx)

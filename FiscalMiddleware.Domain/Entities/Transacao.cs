@@ -18,6 +18,11 @@ public class Transacao
     
     // Navigation property for EF Core
     public Lote Lote { get; private set; }
+    
+    public void AlterarStatus(StatusTransacao novoStatus)
+    {
+        Status = novoStatus;
+    }
 
     protected Transacao() { } // EF Core
 
